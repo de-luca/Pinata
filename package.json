@@ -11,7 +11,7 @@
     "url": "de-luca.io"
   },
   "config": {
-    "ignore": "--ignore='^/dist$' --ignore='^/node_modules$'",
+    "ignore": "--ignore=dist --asar",
     "platform": "--platform=all --arch=x64 --prune",
     "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata --app-version=$npm_package_version"
   },
