@@ -12,7 +12,7 @@ var cmds =  {
     shell.openExternal('https://searchcode.com/');
   },
   ":about": function() {
-    addNode(null, 'About', 'Piñata - Hit it and get your candy (or documentation)', 'A menu bar application using searchcode.com API');
+    addNode('https://github.com/de-luca/Pinata', 'About', 'Piñata - Hit it and get your candy (or documentation)', 'A menu bar application using searchcode.com API');
     addNode('https://searchcode.com', 'About', null, 'More about Searchcode');
     addNode('https://github.com/thomaspark/bootswatch', 'About', null, 'Theme using Slate by Bootswatch');
     addNode('https://de-luca.io', 'About', null, 'A simple tool by Bastien de Luca');
