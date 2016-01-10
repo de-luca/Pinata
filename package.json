@@ -1,0 +1,39 @@
+{
+  "name": "pinata",
+  "productName": "Pinata",
+  "version": "0.0.1",
+  "description": "A menubar living documentation app using searchcode.com API",
+  "license": "BSD-2-Clause",
+  "main": "main.js",
+  "author": {
+    "name": "de-luca",
+    "email": "dev@de-luca.io",
+    "url": "de-luca.io"
+  },
+  "config": {
+    "ignore": "--ignore='^/dist$' --ignore='^/node_modules$'",
+    "platform": "--platform=all --arch=x64 --prune --asar",
+    "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata --app-version=$npm_package_version"
+  },
+  "scripts": {
+    "start": "electron ./",
+    "build": "electron-packager . $npm_package_productName --out=./dist --overwrite $npm_package_config_platform $npm_package_config_version $npm_package_config_ignore",
+    "package": "cd dist && zip -ryXq9 ${npm_package_productName}-darwin-x64-${npm_package_version}.zip ${npm_package_productName}-darwin-x64/${npm_package_productName}.app && tar czvf ${npm_package_productName}-linux-x64-${npm_package_version}.tar.gz ${npm_package_productName}-linux-x64 && zip -ryXq9 ${npm_package_productName}-win32-x64-${npm_package_version}.zip ${npm_package_productName}-win32-x64"
+  },
+  "files": [
+    "main.js",
+    "search.js",
+    "index.html",
+    "style/*",
+    "cmd/*"
+  ],
+  "devDependencies": {
+    "electron-packager": "^5.2.0",
+    "electron-prebuilt": "^0.35.1"
+  },
+  "dependencies": {
+    "jquery": "^2.1.4",
+    "menubar": "^3.0.0",
+    "spinkit": "^1.2.5"
+  }
+}
