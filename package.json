@@ -10,22 +10,27 @@
     "email": "dev@de-luca.io",
     "url": "de-luca.io"
   },
+  "repository": {
+    "type" : "git",
+    "url" : "https://github.com/de-luca/Pinata.git"
+  },
   "config": {
-    "ignore": "--ignore=dist --asar",
+    "ignore": "--ignore=releases --asar",
     "platform": "--platform=all --arch=x64 --prune",
     "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata --app-version=$npm_package_version"
   },
   "scripts": {
     "start": "electron ./",
-    "build": "electron-packager . $npm_package_productName --out=./dist --overwrite $npm_package_config_platform $npm_package_config_version $npm_package_config_ignore",
-    "package": "cd dist && zip -ryXq9 ${npm_package_productName}-darwin-x64-${npm_package_version}.zip ${npm_package_productName}-darwin-x64/${npm_package_productName}.app && tar czvf ${npm_package_productName}-linux-x64-${npm_package_version}.tar.gz ${npm_package_productName}-linux-x64 && zip -ryXq9 ${npm_package_productName}-win32-x64-${npm_package_version}.zip ${npm_package_productName}-win32-x64"
+    "build": "electron-packager . $npm_package_productName --out=./releases --overwrite $npm_package_config_platform $npm_package_config_version $npm_package_config_ignore",
+    "package": "cd releases && zip -ryXq9 ${npm_package_productName}-darwin-x64-${npm_package_version}.zip ${npm_package_productName}-darwin-x64/${npm_package_productName}.app && tar czvf ${npm_package_productName}-linux-x64-${npm_package_version}.tar.gz ${npm_package_productName}-linux-x64 && zip -ryXq9 ${npm_package_productName}-win32-x64-${npm_package_version}.zip ${npm_package_productName}-win32-x64"
   },
   "files": [
     "main.js",
     "search.js",
     "index.html",
     "style/*",
-    "cmd/*"
+    "cmd/*",
+    "node_modules/*"
   ],
   "devDependencies": {
     "electron-packager": "^5.2.0",
