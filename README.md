@@ -31,6 +31,7 @@ __Example:__ `php|python echo`
 ### Commands
 - `:q`: quit the app
 - `:hotkey`: display status and help about the global shortcut
+- `:position`: display status and help about the position
 - `:help`: display some help
 - `:about`: display informations about the app
 
