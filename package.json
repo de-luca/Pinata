@@ -15,7 +15,7 @@
     "url" : "https://github.com/de-luca/Pinata.git"
   },
   "config": {
-    "ignore": "--ignore=releases --asar",
+    "ignore": "--ignore=releases --ignore=screenshot.png --asar",
     "platform": "--platform=all --arch=x64 --prune",
     "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata --app-version=$npm_package_version"
   },

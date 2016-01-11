@@ -8,6 +8,9 @@ var i = 0;
 
 if(localStorage.getItem('hotkey') !== null)
   ipcRenderer.sendSync('hotkey-set', localStorage.getItem('hotkey'));
+if(localStorage.getItem('position') !== null)
+  ipcRenderer.sendSync('position-set', localStorage.getItem('position'));
+
 
 $(function() {
 

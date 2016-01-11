@@ -24,6 +24,34 @@ var cmds =  {
     addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
     addNode(null, 'Help', '<code>:q</code>', 'Quit Pinata');
     addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
+    addNode(null, 'Help', '<code>:position</code>', 'Display Position configuration');
+  },
+  ":position": function(query) {
+    switch (query[1]) {
+      case 'set':
+        if(!query[2]) {
+          addNode(null, 'Position', 'Error!', 'Position cannot be null');
+        } else {
+          ipcRenderer.sendSync('position-set', query[2]);
+          addNode(null, 'Position', 'Saved!', '<code>'+query[2]+'</code> is the new Position.');
+          localStorage.setItem('position', query[2]);
+        }
+        break;
+      case 'reset':
+        ipcRenderer.sendSync('position-set', 'topRight');
+        localStorage.removeItem('position');
+        addNode(null, 'Position', 'Done!', 'Position reset to <code>topRight</code> (default).');
+        break;
+      default:
+        addNode(null, 'Position',
+                'Current Position: <code>'+(localStorage.getItem('position') ? localStorage.getItem('position') : 'topRight (default)' +'</code>'));
+        addNode('https://github.com/jenslind/electron-positioner#position',
+                'Position',
+                '<code>:position set &lt;position-name&gt;</code>',
+                'Set the new position.<br><i>Click this node to get help about supported positions.</i>');
+        addNode(null, 'Position', '<code>:position reset</code>', 'Reset Position to <code>topRight</code> (default).');
+        break;
+    }
   },
   ":hotkey": function(query) {
     switch (query[1]) {
@@ -33,7 +61,7 @@ var cmds =  {
         } else {
           if(ipcRenderer.sendSync('hotkey-set', query[2])) {
             localStorage.setItem('hotkey', query[2]);
-            addNode(null, 'HotKey', 'Saved!', '<kbd>'+query[2]+'</kbd> is the new hotkey.');
+            addNode(null, 'HotKey', 'Saved!', '<kbd>'+query[2]+'</kbd> is the new HotKey.');
           } else {
             addNode(null, 'HotKey', 'Error!', '<kbd>'+query[2]+'</kbd> could not be set, another application already uses this shortcut.');
           }
@@ -49,8 +77,8 @@ var cmds =  {
         addNode('https://github.com/atom/electron/blob/master/docs/api/accelerator.md',
                 'HotKey',
                 '<code>:hotkey set &lt;combo&gt;</code>',
-                'Set the combo as the new hotkey.<br><i>Click this node to get help about key codes.</i>');
-        addNode(null, 'HotKey', '<code>:hotkey remove</code>', 'Remove the saved hotkey');
+                'Set the combo as the new HotKey.<br><i>Click this node to get help about key codes.</i>');
+        addNode(null, 'HotKey', '<code>:hotkey remove</code>', 'Remove the saved HotKey');
         break;
     }
   }

@@ -3,8 +3,10 @@ var ipcMain = require('ipc-main');
 var globalShortcut = require('global-shortcut');
 
 var mb = menubar({
-  width: 500,
-  height: 50
+  'preloadWindow': true,
+  'window-position': 'topRight',
+  'width': 500,
+  'height': 50,
 });
 
 mb.on('ready', function ready () {
@@ -13,23 +15,25 @@ mb.on('ready', function ready () {
       mb.showWindow();
     });
   });
+  ipcMain.on('hotkey-remove', function(event) {
+    globalShortcut.unregisterAll();
+    event.returnValue = true;
+  });
+
+  ipcMain.on('position-set', function(event, arg) {
+    mb.positioner.move(arg);
+    mb.setOption('window-position', arg);
+    event.returnValue = true;
+  });
 
   ipcMain.on('hide-win', function(event, arg) {
     mb.hideWindow();
     event.returnValue = true;
   });
 
-  ipcMain.on('hotkey-remove', function(event) {
-    globalShortcut.unregisterAll();
-    event.returnValue = true;
-  });
-
   mb.app.on('will-quit', function() {
     globalShortcut.unregisterAll();
   });
-
-  mb.showWindow();
-  mb.hideWindow();
 });
 
 mb.on('after-create-window', function() {

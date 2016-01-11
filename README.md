@@ -1,6 +1,9 @@
 # Piñata
 Hit it and get your candy (or documentation)
 
+![Pinata screenshot](screenshot.png)
+
+
 ## Features
 - Uses the [searchcode.com](https://searchcode.com) API
 - Lives in your menu bar
