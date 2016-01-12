@@ -1,5 +1,6 @@
 var menubar = require('menubar');
 var ipcMain = require('ipc-main');
+var Menu = require('menu');
 var globalShortcut = require('global-shortcut');
 
 var mb = menubar({
@@ -10,6 +11,15 @@ var mb = menubar({
 });
 
 mb.on('ready', function ready () {
+
+  mb.tray.setToolTip('Pinata is running...');
+  if (process.platform === 'win32') {
+    var contextMenu = Menu.buildFromTemplate([
+      { label: 'Quit Pinata', type: 'normal', click: function() { mb.app.quit(); }}
+    ]);
+    mb.tray.setContextMenu(contextMenu);
+  }
+
   ipcMain.on('hotkey-set', function(event, arg) {
     event.returnValue = globalShortcut.register(arg, function() {
       mb.showWindow();
