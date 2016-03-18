@@ -1,16 +1,11 @@
 var shell = require('shell');
 var remote = require('remote');
 var ipcRenderer = require('ipc-renderer');
+var config = remote.require('electron-json-config');
 var cmd = require('./cmd/cmd.js');
 
 var pastQuery = [];
 var i = 0;
-
-if(localStorage.getItem('hotkey') !== null)
-  ipcRenderer.sendSync('hotkey-set', localStorage.getItem('hotkey'));
-if(localStorage.getItem('position') !== null)
-  ipcRenderer.sendSync('position-set', localStorage.getItem('position'));
-
 
 $(function() {
 

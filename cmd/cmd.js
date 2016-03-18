@@ -19,8 +19,6 @@ var cmds =  {
   },
   ":help": function() {
     addNode(null, 'Help', 'Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught the current session history.');
-    addNode(null, 'Help', 'Use <code>!</code> to negate an element', 'Example: <code>!php echo</code>');
-    addNode(null, 'Help', 'Use <code>|</code> as an \'or\'', 'Example: <code>php|python echo</code>');
     addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
     addNode(null, 'Help', '<code>:q</code>', 'Quit Pinata');
     addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
@@ -34,22 +32,20 @@ var cmds =  {
         } else {
           ipcRenderer.sendSync('position-set', query[2]);
           addNode(null, 'Position', 'Saved!', '<code>'+query[2]+'</code> is the new Position.');
-          localStorage.setItem('position', query[2]);
         }
         break;
       case 'reset':
         ipcRenderer.sendSync('position-set', 'topRight');
-        localStorage.removeItem('position');
         addNode(null, 'Position', 'Done!', 'Position reset to <code>topRight</code> (default).');
         break;
       default:
         addNode(null, 'Position',
-                'Current Position: <code>'+(localStorage.getItem('position') ? localStorage.getItem('position') : 'topRight (default)' +'</code>'));
+                'Current Position: <code>'+config.get('position')+'</code>');
         addNode('https://github.com/jenslind/electron-positioner#position',
                 'Position',
                 '<code>:position set &lt;position-name&gt;</code>',
                 'Set the new position.<br><i>Click this node to get help about supported positions.</i>');
-        addNode(null, 'Position', '<code>:position reset</code>', 'Reset Position to <code>topRight</code> (default).');
+        addNode(null, 'Position', '<code>:position reset</code>', 'Reset Position to <code>topRight</code>.');
         break;
     }
   },
@@ -60,7 +56,6 @@ var cmds =  {
           addNode(null, 'HotKey', 'Error!', 'HotKey cannot be null');
         } else {
           if(ipcRenderer.sendSync('hotkey-set', query[2])) {
-            localStorage.setItem('hotkey', query[2]);
             addNode(null, 'HotKey', 'Saved!', '<kbd>'+query[2]+'</kbd> is the new HotKey.');
           } else {
             addNode(null, 'HotKey', 'Error!', '<kbd>'+query[2]+'</kbd> could not be set, another application already uses this shortcut.');
@@ -69,11 +64,10 @@ var cmds =  {
         break;
       case 'remove':
         ipcRenderer.sendSync('hotkey-remove');
-        localStorage.removeItem('hotkey');
         addNode(null, 'HotKey', 'Done!', 'HotKey removed.');
         break;
       default:
-        addNode(null, 'HotKey', 'Current HotKey: <kbd>'+localStorage.getItem('hotkey')+'</kbd>');
+        addNode(null, 'HotKey', 'Current HotKey: <kbd>'+config.get('hotkey')+'</kbd>');
         addNode('https://github.com/atom/electron/blob/master/docs/api/accelerator.md',
                 'HotKey',
                 '<code>:hotkey set &lt;combo&gt;</code>',

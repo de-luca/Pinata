@@ -1,7 +1,7 @@
 {
   "name": "pinata",
   "productName": "Pinata",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A menubar living documentation app using searchcode.com API",
   "license": "BSD-2-Clause",
   "main": "main.js",
@@ -11,18 +11,17 @@
     "url": "de-luca.io"
   },
   "repository": {
-    "type" : "git",
-    "url" : "https://github.com/de-luca/Pinata.git"
+    "type": "git",
+    "url": "https://github.com/de-luca/Pinata.git"
   },
   "config": {
-    "ignore": "--ignore=releases --ignore=screenshot.png --asar",
     "platform": "--platform=all --arch=x64 --prune",
-    "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata --app-version=$npm_package_version"
+    "version": "--version=0.35.1 --app-bundle-id=io.de-luca.pinata"
   },
   "scripts": {
     "start": "electron ./",
-    "build": "electron-packager . $npm_package_productName --out=./releases --overwrite $npm_package_config_platform $npm_package_config_version $npm_package_config_ignore",
-    "package": "cd releases && zip -ryXq9 ${npm_package_productName}-darwin-x64-${npm_package_version}.zip ${npm_package_productName}-darwin-x64/${npm_package_productName}.app && tar czvf ${npm_package_productName}-linux-x64-${npm_package_version}.tar.gz ${npm_package_productName}-linux-x64 && zip -ryXq9 ${npm_package_productName}-win32-x64-${npm_package_version}.zip ${npm_package_productName}-win32-x64"
+    "build": "electron-packager . $npm_package_productName --asar --out=./dist --overwrite --ignore='^/dist$' --app-version=$npm_package_version $npm_package_config_platform $npm_package_config_version",
+    "package": "cd dist && zip -ryXq9 ${npm_package_productName}-darwin-x64-${npm_package_version}.zip ${npm_package_productName}-darwin-x64/${npm_package_productName}.app && tar czvf ${npm_package_productName}-linux-x64-${npm_package_version}.tar.gz ${npm_package_productName}-linux-x64 && zip -ryXq9 ${npm_package_productName}-win32-x64-${npm_package_version}.zip ${npm_package_productName}-win32-x64"
   },
   "files": [
     "main.js",
@@ -37,6 +36,7 @@
     "electron-prebuilt": "^0.35.1"
   },
   "dependencies": {
+    "electron-json-config": "^1.0.1",
     "jquery": "^2.1.4",
     "menubar": "^3.0.0",
     "spinkit": "^1.2.5"
