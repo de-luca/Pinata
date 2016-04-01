@@ -1,7 +1,18 @@
+var quit = function() {
+  remote.require('app').quit();
+};
+
+var help = function() {
+  addNode(null, 'Help', 'Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught the current session history.');
+  addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
+  addNode(null, 'Help', '<code>:q</code>', 'Quit Pinata');
+  addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
+  addNode(null, 'Help', '<code>:position</code>', 'Display Position configuration');
+};
+
 var cmds =  {
-  ":q": function() {
-    remote.require('app').quit();
-  },
+  ":q": quit,
+  ":quit": quit,
   ":devtools": function() {
     remote.getCurrentWindow().toggleDevTools();
   },
@@ -12,18 +23,13 @@ var cmds =  {
     shell.openExternal('https://searchcode.com/');
   },
   ":about": function() {
-    addNode('https://github.com/de-luca/Pinata', 'About', 'Piñata - Hit it and get your candy (or documentation)', 'A menu bar application using searchcode.com API');
+    addNode('https://github.com/de-luca/Pinata', 'About', 'Piñata - Hit it and get your candy (or documentation)', 'A menubar application using searchcode.com API');
     addNode('https://searchcode.com', 'About', null, 'More about Searchcode');
-    addNode('https://github.com/thomaspark/bootswatch', 'About', null, 'Theme using Slate by Bootswatch');
+    addNode('https://github.com/thomaspark/bootswatch', 'About', null, 'Theme is Slate by Bootswatch');
     addNode('https://de-luca.io', 'About', null, 'A simple tool by Bastien de Luca');
   },
-  ":help": function() {
-    addNode(null, 'Help', 'Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught the current session history.');
-    addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
-    addNode(null, 'Help', '<code>:q</code>', 'Quit Pinata');
-    addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
-    addNode(null, 'Help', '<code>:position</code>', 'Display Position configuration');
-  },
+  ":?": help,
+  ":help": help,
   ":position": function(query) {
     switch (query[1]) {
       case 'set':
