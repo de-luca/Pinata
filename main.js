@@ -13,7 +13,7 @@ if(!config.has('hotkey'))
 let mb = menubar({
   'preloadWindow': true,
   'window-position': config.get('position'),
-  'icon': 'images/IconTemplate.png',
+  'icon': __dirname+'/res/IconTemplate.png',
   'width': 500,
   'height': 50
 });
