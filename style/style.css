@@ -1,0 +1,34 @@
+body {
+  padding-top: 10px;
+  padding-bottom: 10px;
+  overflow: hidden;
+}
+
+#template, #wait {
+  display: none;
+}
+
+#resultsWrapper {
+  overflow-y: auto;
+  height: 550px;
+}
+
+#resultsWrapper::-webkit-scrollbar {
+  display: none;
+}
+
+.sk-three-bounce {
+  margin: 0px auto 10px;
+}
+
+.sk-three-bounce .sk-child {
+  background-color: #fff;
+  width: 10px;
+  height: 10px;
+}
+
+#search {
+  border: 1px solid rgba(0,0,0,0.6);
+  background-color: #32383e;
+  color: #ffffff;
+}
