@@ -1,8 +1,8 @@
 # Piñata
-Hit it and get your candy (or documentation)
+
+> Documentation providing mechanism
 
 ![Pinata screenshot](screenshot.png)
-
 
 ## Features
 - Uses the [searchcode.com](https://searchcode.com) API
@@ -29,10 +29,10 @@ Or `|` to act as a 'OR'.
 __Example:__ `php|python echo`
 
 ### Commands
-- `:q`: quit the app
+- `:quit` or `:q`: quit the app
 - `:hotkey`: display status and help about the global shortcut
 - `:position`: display status and help about the position
-- `:help`: display some help
+- `:help` or `:?`: display some help
 - `:about`: display informations about the app
 
 ## Building your very own Piñata
@@ -41,7 +41,10 @@ Then, you'll need to clone or download this repo and run `npm install`
 in it.  
 Then you can use the following commands:
 - `npm start`: starts the app without building it
-- `npm run build`: will build the app for all OS (in x64)
+- `npm run build-osx`: builds the app for OS X (in x64)
+- `npm run build-win`: builds the app for Windows (in x64)
+- `npm run build-linux`: builds the app for linux (in x64)
+- `npm run build-all`: build for all OS (in x64)
 - `npm run package`: will package the builded apps in zip/tar.gz
 
 If you only want to build for your OS check out [electron-packager](https://github.com/maxogden/electron-packager) cli.
