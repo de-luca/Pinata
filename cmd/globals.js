@@ -5,7 +5,7 @@ var quit = function() {
 var help = function() {
   addNode(null, 'Help', 'Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught the current session history.');
   addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
-  addNode(null, 'Help', '<code>:q</code>', 'Quit Pinata');
+  addNode(null, 'Help', '<code>:quit</code> or <code>:q</code>', 'Quit Pinata');
   addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
   addNode(null, 'Help', '<code>:position</code>', 'Display Position configuration');
 };

@@ -66,3 +66,7 @@ mb.on('after-create-window', function() {
     mb.window.setSize(500, 50);
   });
 });
+
+mb.on('show', function() {
+  mb.window.webContents.send('purge-bar');
+});

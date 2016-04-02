@@ -1,8 +1,10 @@
-var shell = require('shell');
-var remote = require('remote');
-var ipcRenderer = require('ipc-renderer');
-var config = remote.require('electron-json-config');
-var cmd = require('./cmd/cmd.js');
+'use strict';
+
+const shell = require('shell');
+const remote = require('remote');
+const ipcRenderer = require('ipc-renderer');
+const config = remote.require('electron-json-config');
+const cmd = require('./cmd/globals.js');
 
 var pastQuery = [];
 var i = 0;
@@ -46,6 +48,7 @@ $(function() {
       toggleWait();
     } else {                                // This a query! Replace spaces by + for the request
       query = query.replace(/ /g,"+");
+      query += "+!helloworld";
       $.get('https://searchcode.com/api/search_IV/?q='+query+'&p=0')
         .done(function(data) {
           if(data.results.length === 0) {
@@ -72,6 +75,11 @@ $(function() {
 
 });
 
+ipcRenderer.on('purge-bar', function(event) {
+  $('#search').val('').focus();
+  event.sender.send(true);
+});
+
 function toggleWait() {
   if($('#wait').is(':visible')) {
     $('#wait').hide();
@@ -82,7 +90,7 @@ function toggleWait() {
 }
 
 function addNode(url, badge, head, body) {
-  var template = $('#template').clone().removeAttr('id');
+  let template = $('#template').clone().removeAttr('id');
   template.attr('href', url);
   template.find('#type').html(badge).addClass(badge);
   template.find('#head').html(head);
