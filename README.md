@@ -1,6 +1,6 @@
 # Piñata
 
-> Documentation providing mechanism
+> Documentation providing menubar mechanism
 
 ![Pinata screenshot](screenshot.png)
 

@@ -1,8 +1,8 @@
 {
   "name": "pinata",
   "productName": "Pinata",
-  "version": "0.0.2",
-  "description": "A menubar living documentation app using searchcode.com API",
+  "version": "1.0.0",
+  "description": "Documentation providing menubar mechanism",
   "license": "BSD-2-Clause",
   "main": "main.js",
   "author": {
