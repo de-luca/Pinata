@@ -28,7 +28,7 @@
   },
   "files": [
     "main.js",
-    "search.js",
+    "index.js",
     "index.html",
     "style/*",
     "cmd/*",
