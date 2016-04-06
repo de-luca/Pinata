@@ -6,7 +6,7 @@ const ipcRenderer = require('ipc-renderer');
 const cmd = require('./libs/cmd');
 const view = require('./libs/view');
 
-var cmds = cmd.import();
+cmd.init();
 
 var pastQuery = [];
 var i = 0;
@@ -41,8 +41,8 @@ $(() => {
     }
 
     query = query.split(' ');
-    if(query[0] in cmds) {
-      cmds[query[0]](query, view.toggleWait);
+    if(query[0] in cmd.getCmds()) {
+      cmd.getCmds()[query[0]](query, view.toggleWait);
     } else {
       view.addNode(null, 'Oops', 'Command not found', 'Maybe check <code>:help</code>.');
       view.toggleWait();
