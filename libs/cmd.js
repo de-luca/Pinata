@@ -2,6 +2,7 @@
 
 const fs = require('fs');
 const remote = require('remote');
+const _ = require('lodash');
 const config = remote.require('electron-json-config');
 
 var cmds = {};
@@ -15,9 +16,7 @@ var getExtDir = () => {
 };
 
 var listExt = () => {
-  let files = fs.readdirSync(getExtDir());
-  files.splice(files.indexOf('.DS_Store'), 1);
-  return files;
+  return _.pull(fs.readdirSync(getExtDir()), '.DS_Store');
 };
 
 var listReqExt = () => {
@@ -32,10 +31,7 @@ var init = () => {
 var importInternal = () => {
   let files = fs.readdirSync(__dirname+'/../cmds/');
   for(var i in files) {
-    let ext = require(__dirname+'/../cmds/'+files[i]).cmds;
-    for(var index in ext) {
-      cmds[index] = ext[index];
-    }
+    cmds = _.assign(cmds, require(__dirname+'/../cmds/'+files[i]).cmds);
   }
 };
 
@@ -44,26 +40,17 @@ var importExternal = () => {
   let reqExt = listReqExt();
   for(var i in files) {
     if(reqExt.indexOf(files[i]) !== -1) {
-      let ext = require(getExtDir()+'/'+files[i]).cmds;
-      for(var index in ext) {
-        cmds[index] = ext[index];
-      }
+      cmds = _.assign(cmds, require(getExtDir()+'/'+files[i]).cmds);
     }
   }
 };
 
 var load = (extName) => {
-  let ext = require(getExtDir()+'/'+extName).cmds;
-  for(var index in ext) {
-    cmds[index] = ext[index];
-  }
+  cmds = _.assign(cmds, require(getExtDir()+'/'+extName).cmds);
 };
 
 var unload = (extName) => {
-  let ext = require(getExtDir()+'/'+extName).cmds;
-  for(var index in ext) {
-    delete cmds[index];
-  }
+  _.unset(cmds, _.keys(require(getExtDir()+'/'+extName).cmds));
 };
 
 module.exports = {
