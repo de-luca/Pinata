@@ -32,6 +32,22 @@ var cmds =  {
   "js": (query, callback) => {
     query[0] = 'javascript';
     search(query, callback);
+  },
+  "py": (query, callback) => {
+    query[0] = 'python';
+    search(query, callback);
+  },
+  "java": (query, callback) => {
+    query[0] = 'java';
+    search(query, callback);
+  },
+  "clojure": (query, callback) => {
+    query[0] = 'clojure';
+    search(query, callback);
+  },
+  "perl": (query, callback) => {
+    query[0] = 'perl5';
+    search(query, callback);
   }
 };
 
