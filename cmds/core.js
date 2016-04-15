@@ -5,6 +5,24 @@ const ipcRenderer = require('ipc-renderer');
 const view = require('../libs/view');
 const cmd = require('../libs/cmd');
 const config = remote.require('electron-json-config');
+const _ = require('lodash');
+
+const hotkeyRegex = new RegExp(/^(Command|Cmd|Control|Ctrl|CommandOrControl|CmdOrCtrl|Alt|Option|AltGr|Shift|Super|Plus|Space|Backspace|Delete|Insert|Return|Enter|Up|Down|Left|Right|Home|End|PageUp|PageDown|Escape|Esc|VolumeUp|VolumeDown|VolumeMute|MediaNextTrack|MediaPreviousTrack|MediaStop|MediaPlayPause|PrintScreen|[0-9]|F(1\d|[0-2][0-4]|[1-9])|[A-Z]|\W)(\+(Command|Cmd|Control|Ctrl|CommandOrControl|CmdOrCtrl|Alt|Option|AltGr|Shift|Super|Plus|Space|Backspace|Delete|Insert|Return|Enter|Up|Down|Left|Right|Home|End|PageUp|PageDown|Escape|Esc|VolumeUp|VolumeDown|VolumeMute|MediaNextTrack|MediaPreviousTrack|MediaStop|MediaPlayPause|PrintScreen|[0-9]|F(1\d|[0-2][0-4]|[1-9])|[A-Z]|\W))*$/);
+const positions = [
+  'trayLeft',
+  'trayBottomLeft',
+  'trayRight',
+  'trayBottomRight',
+  'trayCenter',
+  'trayBottomCenter',
+  'topLeft',
+  'topRight',
+  'bottomLeft',
+  'bottomRight',
+  'topCenter',
+  'bottomCenter',
+  'center',
+];
 
 var quit = () => {
   remote.require('app').quit();
@@ -40,8 +58,8 @@ var help = (query, callback) => {
 var position = (query, callback) => {
   switch (query[1]) {
     case 'set':
-      if(!query[2]) {
-        view.addNode(null, 'Position', 'Error!', 'Position cannot be null');
+      if(!query[2] || _.indexOf(positions, query[2] === -1)) {
+        view.addNode(null, 'Position', 'Error!', 'Position <code>'+query[2]+'</code> is not a valid position.');
       } else {
         ipcRenderer.sendSync('position-set', query[2]);
         view.addNode(null, 'Position', 'Saved!', '<code>'+query[2]+'</code> is the new Position.');
@@ -67,7 +85,7 @@ var position = (query, callback) => {
 var hotkey = (query, callback) => {
   switch (query[1]) {
     case 'set':
-      if(!query[2]) {
+      if(!query[2] || !query[2].match(hotkeyRegex)) {
         view.addNode(null, 'HotKey', 'Error!', 'HotKey cannot be null');
       } else {
         if(ipcRenderer.sendSync('hotkey-set', query[2])) {

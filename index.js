@@ -13,7 +13,7 @@ var i = 0;
 
 $(() => {
 
-  $('#search').keydown((event) => {    // 38=UP, 40=DOWN, 27=ESCAPE
+  $('#search').keydown((event) => {
     if(event.keyCode === 38 || event.keyCode === 40) {
       if(event.keyCode === 38 && i < pastQuery.length)
         i++;
@@ -49,7 +49,7 @@ $(() => {
     }
   });
 
-  $('body').on('click', '.result', (event) => {
+  $('body').on('click', '.result', function(event) {
     event.preventDefault();
     shell.openExternal($(this).attr('href'));
   });
