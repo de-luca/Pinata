@@ -8,55 +8,78 @@ const view = require('./libs/view');
 
 cmd.init();
 
-var pastQuery = [];
-var i = 0;
+var ready = true;
 
 $(() => {
 
-  $('#search').keydown((event) => {
-    if(event.keyCode === 38 || event.keyCode === 40) {
-      if(event.keyCode === 38 && i < pastQuery.length)
-        i++;
-      if(event.keyCode === 40 && i > -1)
-        i--;
-      $('#search').val(pastQuery[i]);
-    } else if (event.keyCode === 27) {
-      ipcRenderer.sendSync('hide-win');
+  $('#search').keyup((event) => {
+    switch (event.keyCode) {
+      case 8:
+        ready = true;
+        break;
+      case 13:
+        if(ready) {
+          $('#results').html('');                 // Clean results already in place
+
+          var query = $('#search').val().trim();  // Grab the input and clean it
+          $('#search').val('');
+
+          if(query === '') {
+            view.resizeWin(true);                 // Just reset to textfield size
+            return;
+          } else {
+            view.toggleWait();                    // Display wait spinner
+          }
+
+          query = query.split(' ');
+          if(query[0] in cmd.getCmds()) {
+            cmd.getCmds()[query[0]](query, view.toggleWait);
+            ready = false;
+          } else {
+            view.addNode('Command not found', 'Maybe check <code>:help</code>.', 'Oops');
+            view.toggleWait();
+          }
+        } else {
+          if($('.active').attr('href') && $('.active').attr('type')) {
+            switch ($('.active').attr('type')) {
+              case 'web':
+                shell.openExternal($('.active').attr('href'));
+                break;
+            }
+          }
+        }
+        break;
+      case 27:
+        ipcRenderer.sendSync('hide-win');
+        break;
+      case 38:
+        view.prevResult();
+        break;
+      case 40:
+        view.nextResult();
+        break;
+      default:
+        ready = true;
+        break;
     }
   });
 
-  $('#search-form').submit((event) => {
-    event.preventDefault();                 // Prevent Submit
-    i = 0;                                  // Reset history to bottom
-    $('#results').html('');                 // Clean results already in place
-
-    var query = $('#search').val().trim();  // Grab the input and clean it
-
-    if(query === '') {
-      view.resizeWin(true);                 // Just reset to textfield size
-      return;
-    } else {
-      pastQuery.unshift(query);             // Save if for history
-      view.toggleWait();                    // Display wait spinner
-    }
-
-    query = query.split(' ');
-    if(query[0] in cmd.getCmds()) {
-      cmd.getCmds()[query[0]](query, view.toggleWait);
-    } else {
-      view.addNode(null, 'Oops', 'Command not found', 'Maybe check <code>:help</code>.');
-      view.toggleWait();
-    }
-  });
-
-  $('body').on('click', '.result', function(event) {
+  $('body').on('click', '.list-group-item', function(event) {
     event.preventDefault();
-    shell.openExternal($(this).attr('href'));
+    if($(this).attr('href') && $(this).attr('type')) {
+      switch ($(this).attr('type')) {
+        case 'web':
+          shell.openExternal($(this).attr('href'));
+          break;
+      }
+    }
   });
 
 });
 
-ipcRenderer.on('purge-bar', (event) => {
+ipcRenderer.on('purge-view', (event) => {
   $('#search').val('').focus();
+  $('#results').html('');
+  view.resizeWin(true);
   event.sender.send(true);
 });

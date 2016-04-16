@@ -68,5 +68,5 @@ mb.on('after-create-window', function() {
 });
 
 mb.on('show', function() {
-  mb.window.webContents.send('purge-bar');
+  mb.window.webContents.send('purge-view');
 });

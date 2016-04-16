@@ -9,15 +9,24 @@ var search = (query, callback) => {
   $.get('https://searchcode.com/api/search_IV/?q='+query+'&p=0')
     .done(function(data) {
       if(data.results.length === 0) {
-        view.addNode(null, '404', 'Nothing found... How sad...');
+        view.addNode('Nothing found... How sad...', null, '404');
       } else {
         data.results.forEach(function(curRes) {
-          view.addNode(curRes.url, curRes.type, curRes.synopsis, curRes.description);
+          view.addNode(
+            curRes.synopsis,
+            curRes.description,
+            curRes.type,
+            {type: 'web', value: curRes.url}
+          );
         });
       }
     })
     .fail(function() {
-      view.addNode(null, 'Failed', 'Request failed', 'Maybe check your internet connexion or your query');
+      view.addNode(
+        'Request failed',
+        'Maybe check your internet connexion or your query',
+        'Failed'
+      );
     })
     .always(function() {
       callback();
