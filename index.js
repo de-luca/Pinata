@@ -14,9 +14,6 @@ $(() => {
 
   $('#search').keyup((event) => {
     switch (event.keyCode) {
-      case 8:
-        ready = true;
-        break;
       case 13:
         if(ready) {
           $('#results').html('');                 // Clean results already in place
