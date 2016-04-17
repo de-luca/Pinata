@@ -13,18 +13,10 @@
 
 <body>
 
-  <a href="#" id="template" class="list-group-item result">
-    <span id="type" class="badge"></span>
-    <p id="head" class="lead list-group-item-heading"></p>
-    <p class="list-group-item-text"><small id="body"></small></p>
-  </a>
-
   <div class="container-fluid">
     <div class="row">
       <div class="col-xs-12 form-group">
-        <form id="search-form">
-          <input id="search" class="form-control input-sm" type="text" placeholder="Search..." autofocus>
-        </form>
+        <input id="search" class="form-control input-sm" type="text" placeholder="Search..." autofocus>
       </div>
     </div>
 
@@ -41,6 +33,12 @@
       </div>
     </div>
   </div>
+
+  <a id="nodeTemplate" class="list-group-item">
+    <span id="type" class="badge"></span>
+    <p id="head" class="lead list-group-item-heading"></p>
+    <p class="list-group-item-text"><small id="body"></small></p>
+  </a>
 
   <script src="index.js"></script>
 

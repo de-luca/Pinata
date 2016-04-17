@@ -34,24 +34,60 @@ var devtools = (query, callback) => {
 };
 
 var time = (query, callback) => {
-  view.addNode(null, null, '| (• ◡•)| (❍ᴥ❍ʋ)');
+  view.addNode('| (• ◡•)| (❍ᴥ❍ʋ)');
   callback();
 };
 
 var about = (query, callback) => {
-  view.addNode('https://github.com/de-luca/Pinata', 'About', 'Piñata - Hit it and get your candy (or documentation)', 'A menubar application using searchcode.com API');
-  view.addNode('https://searchcode.com', 'About', null, 'More about Searchcode');
-  view.addNode('https://github.com/thomaspark/bootswatch', 'About', null, 'Theme is Slate by Bootswatch');
-  view.addNode('https://de-luca.io', 'About', null, 'A simple tool by Bastien de Luca');
+  view.addNode(
+    'Piñata - Hit it and get your candy (or documentation)',
+    'A menubar application using searchcode.com API',
+    'About',
+    {type: 'web', value: 'https://github.com/de-luca/Pinata'}
+  );
+  view.addNode(
+    null,
+    'More about Searchcode',
+    'About',
+    {type: 'web', value: 'https://searchcode.com'}
+  );
+  view.addNode(
+    null,
+    'Theme is Slate by Bootswatch',
+    'About',
+    {type: 'web', value: 'https://github.com/thomaspark/bootswatch'}
+  );
+  view.addNode(
+    null,
+    'A simple tool by Bastien de Luca',
+    'About',
+    {type: 'web', value: 'https://de-luca.io'}
+  );
   callback();
 };
 
 var help = (query, callback) => {
-  view.addNode(null, 'Help', 'Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught the current session history.');
-  view.addNode(null, 'Help', '<code>:about</code>', 'Display info about Piñata');
-  view.addNode(null, 'Help', '<code>:quit</code> or <code>:q</code>', 'Quit Pinata');
-  view.addNode(null, 'Help', '<code>:hotkey</code>', 'Display HotKey configuration');
-  view.addNode(null, 'Help', '<code>:position</code>', 'Display Position configuration');
+  view.addNode('Use <kbd>Up arrow</kbd> and <kbd>Down arrow</kbd> to navigate throught results.');
+  view.addNode(
+    '<code>:about</code>',
+    'Display info about Piñata',
+    'Help'
+  );
+  view.addNode(
+    '<code>:quit</code> or <code>:q</code>',
+    'Quit Pinata',
+    'Help'
+  );
+  view.addNode(
+    '<code>:hotkey</code>',
+    'Display HotKey configuration',
+    'Help'
+  );
+  view.addNode(
+    '<code>:position</code>',
+    'Display Position configuration',
+    'Help'
+  );
   callback();
 };
 
@@ -59,24 +95,45 @@ var position = (query, callback) => {
   switch (query[1]) {
     case 'set':
       if(!query[2] || _.indexOf(positions, query[2] === -1)) {
-        view.addNode(null, 'Position', 'Error!', 'Position <code>'+query[2]+'</code> is not a valid position.');
+        view.addNode(
+          'Error!',
+          'Position <code>'+query[2]+'</code> is not a valid position.',
+          'Position'
+        );
       } else {
         ipcRenderer.sendSync('position-set', query[2]);
-        view.addNode(null, 'Position', 'Saved!', '<code>'+query[2]+'</code> is the new Position.');
+        view.addNode(
+          'Saved!',
+          '<code>'+query[2]+'</code> is the new Position.',
+          'Position'
+        );
       }
       break;
     case 'reset':
       ipcRenderer.sendSync('position-set', 'topRight');
-      view.addNode(null, 'Position', 'Done!', 'Position reset to <code>topRight</code> (default).');
+      view.addNode(
+        'Done!',
+        'Position reset to <code>topRight</code> (default).',
+        'Position'
+      );
       break;
     default:
-      view.addNode(null, 'Position',
-              'Current Position: <code>'+config.get('position')+'</code>');
-      view.addNode('https://github.com/jenslind/electron-positioner#position',
-              'Position',
-              '<code>:position set &lt;position-name&gt;</code>',
-              'Set the new position.<br><i>Click this node to get help about supported positions.</i>');
-      view.addNode(null, 'Position', '<code>:position reset</code>', 'Reset Position to <code>topRight</code>.');
+      view.addNode(
+        'Current Position: <code>'+config.get('position')+'</code>',
+        null,
+        'Position'
+      );
+      view.addNode(
+        '<code>:position set &lt;position-name&gt;</code>',
+        'Set the new position.<br><i>Click this node to get help about supported positions.</i>',
+        'Position',
+        {type: 'web', value: 'https://github.com/jenslind/electron-positioner#position'}
+      );
+      view.addNode(
+        '<code>:position reset</code>',
+        'Reset Position to <code>topRight</code>.',
+        'Position'
+      );
       break;
   }
   callback();
@@ -86,26 +143,52 @@ var hotkey = (query, callback) => {
   switch (query[1]) {
     case 'set':
       if(!query[2] || !query[2].match(hotkeyRegex)) {
-        view.addNode(null, 'HotKey', 'Error!', 'HotKey cannot be null');
+        view.addNode(
+          'Error!',
+          'HotKey cannot be null',
+          'HotKey'
+        );
       } else {
         if(ipcRenderer.sendSync('hotkey-set', query[2])) {
-          view.addNode(null, 'HotKey', 'Saved!', '<kbd>'+query[2]+'</kbd> is the new HotKey.');
+          view.addNode(
+            'Saved!',
+            '<kbd>'+query[2]+'</kbd> is the new HotKey.',
+            'HotKey'
+          );
         } else {
-          view.addNode(null, 'HotKey', 'Error!', '<kbd>'+query[2]+'</kbd> could not be set, another application already uses this shortcut.');
+          view.addNode(
+            'Error!',
+            '<kbd>'+query[2]+'</kbd> could not be set, another application already uses this shortcut.',
+            'HotKey'
+          );
         }
       }
       break;
     case 'remove':
       ipcRenderer.sendSync('hotkey-remove');
-      view.addNode(null, 'HotKey', 'Done!', 'HotKey removed.');
+      view.addNode(
+        'Done!',
+        'HotKey removed.',
+        'HotKey'
+      );
       break;
     default:
-      view.addNode(null, 'HotKey', 'Current HotKey: <kbd>'+config.get('hotkey')+'</kbd>');
-      view.addNode('https://github.com/atom/electron/blob/master/docs/api/accelerator.md',
-              'HotKey',
-              '<code>:hotkey set &lt;combo&gt;</code>',
-              'Set the combo as the new HotKey.<br><i>Click this node to get help about key codes.</i>');
-      view.addNode(null, 'HotKey', '<code>:hotkey remove</code>', 'Remove the saved HotKey');
+      view.addNode(
+        'Current HotKey: <kbd>'+config.get('hotkey')+'</kbd>',
+        null,
+        'HotKey'
+      );
+      view.addNode(
+        '<code>:hotkey set &lt;combo&gt;</code>',
+        'Set the combo as the new HotKey.<br><i>Click this node to get help about key codes.</i>',
+        'HotKey',
+        {type: 'web', value: 'https://github.com/atom/electron/blob/master/docs/api/accelerator.md'}
+      );
+      view.addNode(
+        '<code>:hotkey remove</code>',
+        'Remove the saved HotKey',
+        'HotKey'
+      );
       break;
   }
   callback();
@@ -116,12 +199,20 @@ var ext = (query, callback) => {
   switch (query[1]) {
     case 'list':
       if(cmd.listExt().length === 0) {
-        view.addNode(null, 'Extension', 'No extension found in '+cmd.getExtDir());
+        view.addNode(
+          'No extension found in '+cmd.getExtDir(),
+          null,
+          'Extension'
+        );
         callback();
         return;
       }
       cmd.listExt().forEach((curExt, i, all) => {
-        view.addNode(null, 'Extension', curExt, cmd.getExtDir()+'/'+curExt);
+        view.addNode(
+          curExt, cmd.getExtDir()+'/'+curExt,
+          null,
+          'Extension'
+        );
         if(i === all.length-1) {
           callback();
         }
@@ -129,12 +220,16 @@ var ext = (query, callback) => {
       return;
     case 'loaded':
       if(reqExt.length === 0) {
-        view.addNode(null, 'Extension', 'No extensions loaded');
+        view.addNode(
+          'No extensions loaded',
+          null,
+          'Extension'
+        );
         callback();
         return;
       }
       reqExt.forEach((curExt, i, all) => {
-        view.addNode(null, 'Extension', curExt);
+        view.addNode(curExt, null, 'Extension');
         if(i === all.length-1) {
           callback();
         }
@@ -142,27 +237,59 @@ var ext = (query, callback) => {
       return;
     case 'load':
       if(cmd.listExt().indexOf(query[2]) === -1) {
-        view.addNode(null, 'Extension', 'Error', 'Extension '+query[2]+' is not available.');
+        view.addNode(
+          'Error',
+          'Extension '+query[2]+' is not available.',
+          'Extension'
+        );
       } else if(reqExt.indexOf(query[2]) !== -1) {
-        view.addNode(null, 'Extension', 'Error', 'Extension '+query[2]+' is already loaded.');
+        view.addNode(
+          'Error',
+          'Extension '+query[2]+' is already loaded.',
+          'Extension'
+        );
       } else {
         reqExt.push(query[2]);
         config.set('ext', reqExt);
         cmd.load(query[2]);
-        view.addNode(null, 'Extension', 'Okay', 'Extension '+query[2]+' as been loaded.');
+        view.addNode(
+          'Okay',
+          'Extension '+query[2]+' as been loaded.',
+          'Extension'
+        );
       }
       break;
     case 'unload':
       reqExt.splice(reqExt.indexOf(query[2]), 1);
       config.set('ext', reqExt);
       cmd.unload(query[2]);
-      view.addNode(null, 'Extension', 'Okay', 'Extension '+query[2]+' as been unloaded.');
+      view.addNode(
+        'Okay',
+        'Extension '+query[2]+' as been unloaded.',
+        'Extension'
+      );
       break;
     default:
-      view.addNode(null, 'Extension', '<code>:ext list</code>', 'List extension found in '+cmd.getExtDir());
-      view.addNode(null, 'Extension', '<code>:ext loaded</code>', 'List extension loaded');
-      view.addNode(null, 'Extension', '<code>:ext load &lt;extension-name&gt;</code>', 'Attempt to load extension from '+cmd.getExtDir());
-      view.addNode(null, 'Extension', '<code>:ext unload &lt;extension-name&gt;</code>', 'Attempt to unload extension from '+cmd.getExtDir());
+      view.addNode(
+        '<code>:ext list</code>',
+        'List extension found in '+cmd.getExtDir(),
+        'Extension'
+      );
+      view.addNode(
+        '<code>:ext loaded</code>',
+        'List extension loaded',
+        'Extension'
+      );
+      view.addNode(
+        '<code>:ext load &lt;extension-name&gt;</code>',
+        'Attempt to load extension from '+cmd.getExtDir(),
+        'Extension'
+      );
+      view.addNode(
+        '<code>:ext unload &lt;extension-name&gt;</code>',
+        'Attempt to unload extension from '+cmd.getExtDir(),
+        'Extension'
+      );
       break;
   }
   callback();
