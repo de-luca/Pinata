@@ -9,7 +9,7 @@ var search = (query, callback) => {
   $.get('https://searchcode.com/api/search_IV/?q='+query+'&p=0')
     .done(function(data) {
       if(data.results.length === 0) {
-        view.addNode('Nothing found... How sad...', null, '404');
+        view.addNode('Nothing found... How sad...');
       } else {
         data.results.forEach(function(curRes) {
           view.addNode(
@@ -24,8 +24,7 @@ var search = (query, callback) => {
     .fail(function() {
       view.addNode(
         'Request failed',
-        'Maybe check your internet connexion or your query',
-        'Failed'
+        'Maybe check your internet connexion or your query'
       );
     })
     .always(function() {

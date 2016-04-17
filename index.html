@@ -7,23 +7,17 @@
   <link rel="stylesheet" href="style/slate.min.css">
   <link rel="stylesheet" href="style/colorMap.css">
   <link rel="stylesheet" href="style/style.css">
-  <link rel="stylesheet" href="node_modules/spinkit/css/spinkit.css">
-  <link rel="stylesheet" href="node_modules/spinkit/css/spinners/7-three-bounce.css">
+  <link rel="stylesheet" href="node_modules/font-awesome/css/font-awesome.min.css">
 </head>
 
 <body>
 
   <div class="container-fluid">
     <div class="row">
-      <div class="col-xs-12 form-group">
+      <div class="col-xs-12 form-group has-feedback">
         <input id="search" class="form-control input-sm" type="text" placeholder="Search..." autofocus>
+        <i id="working" class="fa fa-fw fa-spinner fa-pulse form-control-feedback"></i>
       </div>
-    </div>
-
-    <div id="wait" class="sk-three-bounce">
-      <div class="sk-child sk-bounce1"></div>
-      <div class="sk-child sk-bounce2"></div>
-      <div class="sk-child sk-bounce3"></div>
     </div>
 
     <div id="resultsWrapper" class="row">
@@ -33,12 +27,6 @@
       </div>
     </div>
   </div>
-
-  <a id="nodeTemplate" class="list-group-item">
-    <span id="type" class="badge"></span>
-    <p id="head" class="lead list-group-item-heading"></p>
-    <p class="list-group-item-text"><small id="body"></small></p>
-  </a>
 
   <script src="index.js"></script>
 

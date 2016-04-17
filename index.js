@@ -17,23 +17,21 @@ $(() => {
       case 13:
         if(ready) {
           $('#results').html('');                 // Clean results already in place
-
-          var query = $('#search').val().trim();  // Grab the input and clean it
+          let query = $('#search').val().trim();  // Grab the input and clean it
           $('#search').val('');
 
           if(query === '') {
             view.resizeWin(true);                 // Just reset to textfield size
             return;
-          } else {
-            view.toggleWait();                    // Display wait spinner
           }
+          view.toggleWait();                    // Display wait spinner
 
           query = query.split(' ');
           if(query[0] in cmd.getCmds()) {
             cmd.getCmds()[query[0]](query, view.toggleWait);
             ready = false;
           } else {
-            view.addNode('Command not found', 'Maybe check <code>:help</code>.', 'Oops');
+            view.addNode('Command not found', 'Maybe check <code>:help</code>.');
             view.toggleWait();
           }
         } else {

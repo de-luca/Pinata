@@ -4,25 +4,56 @@ const $ = require('jquery');
 const remote = require('remote');
 
 var toggleWait = () => {
-  if($('#wait').is(':visible')) {
-    $('#wait').hide();
+  if($('#working').is(':visible')) {
+    $('#working').hide();
     $('#results').children().first().addClass('active');
   } else {
-    $('#wait').slideDown('fast');
-    remote.getCurrentWindow().setSize(500, 85);
+    $('#working').show();
   }
 };
 
 var addNode = (head, body, badge, link) => {
-  let template = $('#nodeTemplate').clone().removeAttr('id');
+  let node = $('<a>', {class: 'list-group-item'});
+
   if(link) {
-    template.attr('href', link.value);
-    template.attr('type', link.type);
+    node.attr({
+      href: link.value,
+      type: link.type
+    });
   }
-  template.find('#type').html(badge).addClass(badge);
-  template.find('#head').html(head);
-  template.find('#body').html(body);
-  template.appendTo('#results').slideDown(resizeWin());
+
+  if(badge && link) {
+    node.append($('<span>', {
+      class: 'badge merged-right',
+      html: getIconLink(link.type)
+    }));
+    node.append($('<span>', {
+      class: 'badge merged-left',
+      html: badge
+    }));
+  } else if (!(badge && link) && (badge || link)) {
+    node.append($('<span>', {
+      class: 'badge',
+      html: badge || getIconLink(link.type)
+    }));
+  }
+
+  if(head) {
+    node.append($('<p>', {
+      class: 'lead list-group-item-heading',
+      html: head
+    }));
+  }
+
+  if(body) {
+    node.append($('<p>', {
+      class: 'list-group-item-text',
+      html: '<small>'+body+'</small>'
+    }));
+  }
+
+  node.appendTo('#results');
+  resizeWin();
 };
 
 var resizeWin = (reset) => {
@@ -42,6 +73,13 @@ var nextResult = () => {
     let result = $('.active');
     result.removeClass('active');
     result.next().addClass('active');
+  }
+};
+
+var getIconLink = (type) => {
+  switch (type) {
+    case 'web':
+      return '<i class="fa fa-fw fa-link"></i>';
   }
 };
 
