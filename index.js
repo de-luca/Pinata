@@ -1,72 +1,41 @@
 'use strict';
 
 const $ = require('jquery');
-const shell = require('shell');
 const ipcRenderer = require('ipc-renderer');
-const cmd = require('./libs/cmd');
+const ext = require('./libs/ext');
 const view = require('./libs/view');
 
-cmd.init();
-
-var ready = true;
+ext.init();
 
 $(() => {
 
   $('#search').keyup((event) => {
     switch (event.keyCode) {
       case 13:
-        if(ready) {
-          $('#results').html('');                 // Clean results already in place
-          let query = $('#search').val().trim();  // Grab the input and clean it
-          $('#search').val('');
-
-          if(query === '') {
-            view.resizeWin(true);                 // Just reset to textfield size
-            return;
-          }
-          view.toggleWait();                    // Display wait spinner
-
-          query = query.split(' ');
-          if(query[0] in cmd.getCmds()) {
-            cmd.getCmds()[query[0]](query, view.toggleWait);
-            ready = false;
-          } else {
-            view.addNode('Command not found', 'Maybe check <code>:help</code>.');
-            view.toggleWait();
-          }
-        } else {
-          if($('.active').attr('href') && $('.active').attr('type')) {
-            switch ($('.active').attr('type')) {
-              case 'web':
-                shell.openExternal($('.active').attr('href'));
-                break;
-            }
-          }
-        }
+        $('.active').click();
         break;
       case 27:
         ipcRenderer.sendSync('hide-win');
         break;
       case 38:
+        $('#search').focus().val($('#search').val());
         view.prevResult();
         break;
       case 40:
+        $('#search').focus().val($('#search').val());
         view.nextResult();
         break;
-      default:
-        ready = true;
+      case 37:
+      case 39:
         break;
-    }
-  });
-
-  $('body').on('click', '.list-group-item', function(event) {
-    event.preventDefault();
-    if($(this).attr('href') && $(this).attr('type')) {
-      switch ($(this).attr('type')) {
-        case 'web':
-          shell.openExternal($(this).attr('href'));
-          break;
-      }
+      default:
+        view.toggleWait();
+        $('#results').html('');
+        view.resizeWin(true);
+        if($('#search').val().length >= 3) {
+          ext.match($('#search').val(), view.selectResult);
+        }
+        break;
     }
   });
 
