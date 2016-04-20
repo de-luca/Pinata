@@ -39,7 +39,7 @@
     "electron-prebuilt": "^0.35.1"
   },
   "dependencies": {
-    "electron-json-config": "^1.0.1",
+    "electron-json-config": "^1.1.0",
     "font-awesome": "^4.6.1",
     "jquery": "^2.1.4",
     "lodash": "^4.8.2",

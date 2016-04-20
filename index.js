@@ -25,11 +25,17 @@ $(() => {
         $('#search').focus().val($('#search').val());
         view.nextResult();
         break;
-      case 37:
-      case 39:
+      case 16: //shift
+      case 17: //ctrl
+      case 18: //alt
+      case 20: //caps lock
+      case 37: //left
+      case 39: //right
+      case 91: //left super
+      case 92: //right super
+      case 93: //select
         break;
       default:
-        view.toggleWait();
         $('#results').html('');
         view.resizeWin(true);
         if($('#search').val().length >= 3) {

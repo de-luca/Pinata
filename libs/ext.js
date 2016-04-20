@@ -1,8 +1,9 @@
 'use strict';
 
-const fs = require('fs');
-const remote = require('remote');
 const _ = require('lodash');
+const fs = require('fs');
+const path = require('path');
+const remote = require('remote');
 const config = remote.require('electron-json-config');
 
 var cmds = {};
@@ -31,7 +32,7 @@ var init = () => {
 };
 
 var importInternal = () => {
-  let files = fs.readdirSync(__dirname+'/../cmds/');
+  let files = _.map(fs.readdirSync(__dirname+'/../cmds/'), (item) => path.basename(item, '.js'));
   for(var i in files) {
     cmds[files[i]] = require(__dirname+'/../cmds/'+files[i]).matcher;
   }
@@ -48,7 +49,7 @@ var importExternal = () => {
 };
 
 var load = (extName) => {
-  cmds = require(getExtDir()+'/'+extName).matcher;
+  cmds[extName] = require(getExtDir()+'/'+extName).matcher;
 };
 
 var unload = (extName) => {

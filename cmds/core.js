@@ -266,22 +266,42 @@ var exts = (query, callback) => {
           'Extension '+query[2]+' is already loaded.'
         );
       } else {
-        reqExt.push(query[2]);
-        config.set('ext', reqExt);
-        ext.load(query[2]);
         view.addNode(
-          'Okay',
-          'Extension '+query[2]+' as been loaded.'
+          'Load?',
+          'Load Extension '+query[2]+'?',
+          null,
+          {
+            type: 'function',
+            action: () => {
+              reqExt.push(query[2]);
+              config.set('ext', reqExt);
+              ext.load(query[2]);
+              view.addNode(
+                'Done',
+                'Extension '+query[2]+' as been loaded.'
+              );
+            }
+          }
         );
       }
       break;
     case 'unload':
-      reqExt.splice(reqExt.indexOf(query[2]), 1);
-      config.set('ext', reqExt);
-      ext.unload(query[2]);
       view.addNode(
-        'Okay',
-        'Extension '+query[2]+' as been unloaded.'
+        'Unload?',
+        'Unload Extension '+query[2]+'?',
+        null,
+        {
+          type: 'function',
+          action: () => {
+            reqExt.splice(reqExt.indexOf(query[2]), 1);
+            config.set('ext', reqExt);
+            ext.unload(query[2]);
+            view.addNode(
+              'Okay',
+              'Extension '+query[2]+' as been unloaded.'
+            );
+          }
+        }
       );
       break;
     default:
