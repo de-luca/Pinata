@@ -3,10 +3,13 @@
 const $ = require('jquery');
 const remote = require('remote');
 
+var selectResult = () => {
+  $('#results').children().first().addClass('active');
+};
+
 var toggleWait = () => {
   if($('#working').is(':visible')) {
     $('#working').hide();
-    $('#results').children().first().addClass('active');
   } else {
     $('#working').show();
   }
@@ -16,10 +19,7 @@ var addNode = (head, body, badge, link) => {
   let node = $('<a>', {class: 'list-group-item'});
 
   if(link) {
-    node.attr({
-      href: link.value,
-      type: link.type
-    });
+    node.on('click', link.action);
   }
 
   if(badge && link) {
@@ -28,12 +28,12 @@ var addNode = (head, body, badge, link) => {
       html: getIconLink(link.type)
     }));
     node.append($('<span>', {
-      class: 'badge merged-left',
+      class: 'badge merged-left '+badge,
       html: badge
     }));
   } else if (!(badge && link) && (badge || link)) {
     node.append($('<span>', {
-      class: 'badge',
+      class: 'badge '+badge||'',
       html: badge || getIconLink(link.type)
     }));
   }
@@ -80,10 +80,13 @@ var getIconLink = (type) => {
   switch (type) {
     case 'web':
       return '<i class="fa fa-fw fa-link"></i>';
+    case 'function':
+      return '<i class="fa fa-fw fa-cog"></i>';
   }
 };
 
 module.exports = {
+  "selectResult": selectResult,
   "toggleWait": toggleWait,
   "addNode": addNode,
   "resizeWin": resizeWin,

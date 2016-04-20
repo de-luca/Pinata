@@ -2,6 +2,7 @@
 
 const $ = require('jquery');
 const view = require('../libs/view');
+const shell = require('shell');
 
 var search = (query, callback) => {
   query = query.join("+");
@@ -16,7 +17,10 @@ var search = (query, callback) => {
             curRes.synopsis,
             curRes.description,
             curRes.type,
-            {type: 'web', value: curRes.url}
+            {
+              type: 'web',
+              action: () => shell.openExternal(curRes.url)
+            }
           );
         });
       }
@@ -60,5 +64,10 @@ var cmds =  {
 };
 
 module.exports = {
-  "cmds": cmds
+  "matcher": (query, callback) => {
+    query = query.split(' ');
+    if(cmds[query[0]]) {
+      cmds[query[0]](query, callback);
+    }
+  }
 };
