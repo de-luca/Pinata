@@ -56,6 +56,13 @@ var addNode = (head, body, badge, link) => {
   resizeWin();
 };
 
+var removeActive = (reset) => {
+  $('.active').slideUp('fast', function() {
+    this.remove();
+    resizeWin(reset);
+  });
+};
+
 var resizeWin = (reset) => {
   remote.getCurrentWindow().setSize(500, (reset ? 50 : ($('#results').height()<550 ? $('#results').height()+65 : 600)));
 };
@@ -64,7 +71,7 @@ var prevResult = () => {
   if($('.active').prev().length !== 0) {
     let result = $('.active');
     result.removeClass('active');
-    result.prev().addClass('active');
+    result.prev().addClass('active').get(0).scrollIntoView(true);
   }
 };
 
@@ -72,7 +79,14 @@ var nextResult = () => {
   if($('.active').next().length !== 0) {
     let result = $('.active');
     result.removeClass('active');
-    result.next().addClass('active');
+    result.next().addClass('active').get(0).scrollIntoView(true);
+  }
+};
+
+var setSearch = (value, trigger) => {
+  $('#search').val(value);
+  if(trigger) {
+    $('#search').keyup();
   }
 };
 
@@ -89,7 +103,9 @@ module.exports = {
   "selectResult": selectResult,
   "toggleWait": toggleWait,
   "addNode": addNode,
+  "removeActive": removeActive,
   "resizeWin": resizeWin,
   "prevResult": prevResult,
   "nextResult": nextResult,
+  "setSearch": setSearch,
 };
