@@ -12,7 +12,7 @@ if(!config.has('hotkey'))
 
 let mb = menubar({
   'preloadWindow': true,
-  'window-position': config.get('position'),
+  'windowPosition': config.get('position'),
   'icon': __dirname+'/res/IconTemplate.png',
   'width': 500,
   'height': 50
@@ -46,7 +46,7 @@ mb.on('ready', function ready () {
 
   ipcMain.on('position-set', function(event, pos) {
     mb.positioner.move(pos);
-    mb.setOption('window-position', pos);
+    mb.setOption('windowPosition', pos);
     config.set('position', pos);
     event.returnValue = true;
   });

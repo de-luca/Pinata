@@ -4,17 +4,9 @@ body {
   overflow: hidden;
 }
 
-#working {
-  display: none;
-}
-
-#resultsWrapper {
-  overflow-y: auto;
-  height: 550px;
-}
-
-#resultsWrapper::-webkit-scrollbar {
-  display: none;
+#searchBar {
+  position: fixed;
+  width: 100%;
 }
 
 .form-control-feedback {
@@ -25,6 +17,22 @@ body {
   border: 1px solid rgba(0,0,0,0.6);
   background-color: #32383e;
   color: #ffffff;
+}
+
+#working {
+  display: none;
+}
+
+#resultsWrapper {
+  position: fixed;
+  top: 55px;
+  width: 100%;
+  overflow-y: auto;
+  height: 550px;
+}
+
+#resultsWrapper::-webkit-scrollbar {
+  display: none;
 }
 
 .merged-left {
