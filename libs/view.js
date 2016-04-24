@@ -56,11 +56,85 @@ var addNode = (head, body, badge, link) => {
   resizeWin();
 };
 
+var editActive = (head, body, badge, link) => {
+  let node = $('.active');
+  let tmp;
+
+  if(link) {
+    node.off('click').on('click', link.action);
+  }
+
+  if(badge && link) {
+    node.find('span.badge').remove();
+    node.prepend($('<span>', {
+      class: 'badge merged-left '+badge,
+      html: badge
+    }));
+    node.prepend($('<span>', {
+      class: 'badge merged-right',
+      html: getIconLink(link.type)
+    }));
+  } else if (!(badge && link) && (badge || link)) {
+    node.find('span.badge').remove();
+    node.prepend($('<span>', {
+      class: 'badge '+badge||'',
+      html: badge || getIconLink(link.type)
+    }));
+  }
+
+  if(head) {
+    tmp = node.find('p.list-group-item-heading');
+    if(tmp.length > 0) {
+      tmp.html(head);
+    } else {
+      node.append($('<p>', {
+        class: 'lead list-group-item-heading',
+        html: head
+      }));
+    }
+  }
+
+  if(body) {
+    tmp = node.find('p.list-group-item-text');
+    if(tmp.length > 0) {
+      tmp.html('<small>'+body+'</small>');
+    } else {
+      node.append($('<p>', {
+        class: 'lead list-group-item-text',
+        html: '<small>'+body+'</small>'
+      }));
+    }
+  }
+
+  resizeWin();
+};
+
 var removeActive = (reset) => {
   $('.active').slideUp('fast', function() {
     this.remove();
     resizeWin(reset);
   });
+};
+
+var errorNode = () => {
+  $('#results').html('');
+  let node = $('<a>', {class: 'list-group-item error-node active'});
+  node.on('click', () => {
+    remote.getCurrentWindow().toggleDevTools();
+  });
+
+  node.append($('<p>', {
+    class: 'lead list-group-item-heading',
+    html: 'An exception occured...'
+  }));
+
+  node.append($('<p>', {
+    class: 'list-group-item-text',
+    html: '<small>You can click this node to toggle Devtools and review it.</small>'
+  }));
+
+  node.appendTo('#results');
+  resizeWin();
 };
 
 var resizeWin = (reset) => {
@@ -103,7 +177,9 @@ module.exports = {
   "selectResult": selectResult,
   "toggleWait": toggleWait,
   "addNode": addNode,
+  "editActive": editActive,
   "removeActive": removeActive,
+  "errorNode": errorNode,
   "resizeWin": resizeWin,
   "prevResult": prevResult,
   "nextResult": nextResult,
