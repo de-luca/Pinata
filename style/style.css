@@ -46,3 +46,13 @@ body {
   border-top-left-radius: 0;
   border-bottom-left-radius: 0;
 }
+
+.error-node {
+  background-color: #ee5f5b;
+  border-color: #ed4d63;
+}
+
+.error-node:hover,
+.error-node.active {
+  background-color: #e9322d !important;
+}
